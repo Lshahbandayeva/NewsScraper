@@ -59,11 +59,15 @@ def run_script():
             (title.text, link_url, date.text, image, [c.text for c in content], link_url.split('/')[3])
         )
 
-        conn.commit()
 
+        conn.commit()
         driver.close()
         driver.switch_to.window(driver.window_handles[0])
 
     driver.quit()
 
-run_script()
+schedule.every().hour.do(run_script)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
